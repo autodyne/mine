@@ -1,0 +1,23 @@
+apply plugin: 'scala'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.scala-lang:scala3-library_3:+'
+}
+
+sourceSets.main.resources.srcDirs += 'src/main/python'
+
+compileScala {
+	options.encoding = 'UTF-8'
+}
+
+jar {
+	manifest.attributes 'Main-Class': 'Main'
+}
+
+jar.from configurations.compileClasspath.collect {
+	it.isDirectory()? it: zipTree(it)
+}
